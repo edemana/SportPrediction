@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KickRate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: all 0.5s ease;
+    }
+
+    body {
+      font-family: "Montserrat", sans-serif;
+      background-color: #2b2626;
+      color: #f8f5f5;
+    }
+
+    header {
+      color: #f4f4f4;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10%;
+    }
+
+    /* Login Section Styles */
+    .login {
+      background-size: cover;
+      background-position: center;
+      padding: 100px 0;
+      text-align: center;
+      position: relative; /* Required for overlay */
+      min-height: 100vh;
+    }
+
+    /* Overlay for the background image */
+    .login::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4); /* Black with 40% opacity */
+      z-index: 1; /* Place behind the image */
+    }
+
+    /* Styling for content on top of the image */
+    .login h1,
+    .login p,
+    .login button[type="submit"] {
+      color: white;
+      position: relative;
+      z-index: 2; /* Ensure content is above the overlay */
+    }
+    .login input[type="number"] {
+      color: black;
+      position: relative;
+      z-index: 2;
+    }
+
+    .login h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 0;
+      background-color: rgba(0, 0, 0, 0.4); /* Matching the nav */
+      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      z-index: 1000;
+    }
+
+    footer p {
+      color: #f8f5f5; /* Slightly lighter text color */
+    }
+
+    input[type=number] {
+      width: 40%;
+      color: black;
+      background-color: white;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button[type=submit] {
+      width: 20%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button[type=submit]:hover {
+      background-color: #45a049;
+    }
+
+    h2 {
+      text-align: center;
+      color: #40E0D0;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>
+        <div class="logo">KickRate</div>
+    </nav>
+  </header>
+  <div class="login">
+    <main class="home">
+      <h1>Welcome to KickRate!</h1>
+      <p> Use this cutting-edge AI to predict a player's potential based on their key stats</p>
+      <form action="{{ url_for('predict') }}" method="post">
+        <input type="number" step=0.01 name="potential" placeholder="Potential" required="required" />
+        <input type="number" step=0.01 name="passing" placeholder="Passing" required="required" />
+        <input type="number" step=0.01 name="dribbling" placeholder="Dribbling" required="required" />
+        <input type="number" step=0.01 name="movementreactions" placeholder="Movement Reactions" required="required" />
+        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+      </form>
+      <br>
+      {% if prediction_text %}
+        <h2>{{ prediction_text }}</h2>
+      {% endif %}
+      {% if confidence_text %}
+
+        <p>{{ confidence_text }}</p>
+      {% endif %}
+    </main>
+    <footer>
+      <p>
+        &copy; 2024 Edem K. Anagbah.
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
